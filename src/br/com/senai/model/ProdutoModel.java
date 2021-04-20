@@ -53,10 +53,4 @@ public class ProdutoModel {
 		this.saldoEmEstoque = saldoEmEstoque;
 	}
 
-	@Override
-	public String toString() {
-		return "Nome do produto: " + nomdeDoProduto + "\nPreço do Produto: " + precoDoProduto
-				+ "\nQuantidade De Produto: " + quantidadeDeProduto + "\nSaldo Em Estoque: " + saldoEmEstoque;
-	}
-
 }
