@@ -34,7 +34,7 @@ public class ProdutoController {
 
 		System.out.println("\n--- CADASTRAR ITENS ---\n");
 		System.out.print("Produto: ");
-		produtoModel.setNomdeDoProduto(entrada.next());
+		produtoModel.setNomeDoProduto(entrada.next());
 		System.out.print("Preço: ");
 		produtoModel.setPrecoDoProduto(entrada.nextDouble());
 		System.out.print("Quantidade:");
@@ -46,15 +46,23 @@ public class ProdutoController {
 	
 	public List<ProdutoModel> listarProdutos(List<ProdutoModel> produtos) {
 		System.out.println("\n----- PRODUTOS CADASTRASDOS -----\n");
-		System.out.printf("| %10s | %8s | %4s | %9s |\n", "Produto", "Preço", "Qtd", "R$ Total");
+		System.out.printf("| %2s | %10s | %8s | %4s | %9s |\n", "ID", "Produto", "Preço", "Qtd", "R$ Total");
 		
-		produtos.forEach(produto -> {
-			System.out.printf("| %10s | %8s | %4s | %9s |\n",
-					produto.getNomdeDoProduto(),
-					produto.getPrecoDoProduto(),
-					produto.getQuantidadeDeProduto(),
-					produto.getSaldoEmEstoque());
-		});
+//		produtos.forEach(produto -> {
+//			System.out.printf("| %10s | R$%6.2f | %4s | %9s |\n",
+//					produto.getNomeDoProduto(),
+//					produto.getPrecoDoProduto(),
+//					produto.getQuantidadeDeProduto(),
+//					produto.getSaldoEmEstoque());
+//		});
+		for (int i = 0; i < produtos.size(); i++) {
+			System.out.printf("| %2s | %10s | R$%6.2f | %4s | %9s |\n",
+					i + 1,
+					produtos.get(i).getNomeDoProduto(),
+					produtos.get(i).getPrecoDoProduto(),
+					produtos.get(i).getQuantidadeDeProduto(),
+					produtos.get(i).getSaldoEmEstoque());
+		}
 		
 		return produtos;
 	}
@@ -63,9 +71,21 @@ public class ProdutoController {
 		ProdutoModel produto = new ProdutoModel();
 		int idDoProduto, indexDoCampo;
 		
+		if(produtos.size() <= 0) {
+			System.out.println("Não possui produtos para serem editados.");
+			return null;
+		}
+		
+		listarProdutos(produtos);
+		
 		System.out.println("--- EDITAR DADOS DE PRODUTO ---");
 		System.out.print("Informe o ID do produto: ");
-		idDoProduto = entrada.nextInt();
+		idDoProduto = entrada.nextInt() - 1;
+		
+		if(idDoProduto > produtos.size()) {
+			System.out.println("Este produto não existe.");
+			return null;
+		}
 		
 		System.out.println("--- CAMPOS --");
 		System.out.println("1) Nome do produto");
@@ -81,24 +101,55 @@ public class ProdutoController {
 			produto.setSaldoEmEstoque(produtos.get(idDoProduto).getSaldoEmEstoque());
 			
 			System.out.print("Informe o novo nome para o produto: ");
-			produto.setNomdeDoProduto(entrada.next());
+			produto.setNomeDoProduto(entrada.next());
 			
 			produtos.set(idDoProduto, produto);
 			break;
 		case 2:
-			produto.setPrecoDoProduto(produtos.get(idDoProduto).getPrecoDoProduto());
+			produto.setNomeDoProduto(produtos.get(idDoProduto).getNomeDoProduto());
 			produto.setQuantidadeDeProduto(produtos.get(idDoProduto).getQuantidadeDeProduto());
-			produto.setSaldoEmEstoque(produtos.get(idDoProduto).getSaldoEmEstoque());
 			
 			System.out.print("Informe o novo preço para o produto: ");
 			produto.setPrecoDoProduto(entrada.nextDouble());
+			produto.setSaldoEmEstoque(produtos.get(idDoProduto).getQuantidadeDeProduto() * produto.getPrecoDoProduto());
 			
 			produtos.set(idDoProduto, produto);
+		case 3:
+			produto.setNomeDoProduto(produtos.get(idDoProduto).getNomeDoProduto());
+			produto.setPrecoDoProduto(produtos.get(idDoProduto).getPrecoDoProduto());
+			
+			System.out.print("Informe a quantidade do produto: ");
+			produto.setQuantidadeDeProduto(entrada.nextInt());
+			produto.setSaldoEmEstoque(produtos.get(idDoProduto).getPrecoDoProduto() * produto.getQuantidadeDeProduto());
+			
+			produtos.set(idDoProduto, produto);
+			break;
 		default:
+			System.out.println("Opção inválida!!!");
 			break;
 		}
 		
 		return produto;
+	}
+	
+	public void removerProduto(List<ProdutoModel> produtos) {
+		System.out.println("--- REMOVER PRODUTO ---");
+		if(produtos.size() <= 0) {
+			System.out.println("Não possui produtos para serem removidos.");
+			return;
+		}
+		
+		listarProdutos(produtos);
+		
+		System.out.print("Informe o ID do produto a ser removido: ");
+		int idDoProduto = entrada.nextInt();
+		
+		if(idDoProduto > produtos.size()) {
+			System.out.println("Este produto não foi cadastrado.");
+			return;
+		}
+		
+		produtos.remove(idDoProduto - 1);
 	}
 }
 

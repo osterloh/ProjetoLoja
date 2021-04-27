@@ -28,6 +28,9 @@ public class ProgramaPrincipal {
 			case 3:
 				produtoController.editarProduto(produtos);
 				break;
+			case 4:
+				produtoController.removerProduto(produtos);
+				break;
 			case 9:
 				sair = true;
 				break;
