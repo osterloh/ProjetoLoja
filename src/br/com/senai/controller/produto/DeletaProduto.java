@@ -19,7 +19,7 @@ public class DeletaProduto {
 			return;
 		}
 
-		listaProduto.listarProdutos(produtos);
+		listaProduto.listarProdutos();
 
 		System.out.print("Informe o ID do produto a ser removido: ");
 		int idDoProduto = entrada.nextInt();

@@ -39,10 +39,10 @@ public class ProgramaPrincipal {
 
 			switch (opc) {
 			case 1:
-				produtos.add(cadastraProduto.cadastrarProduto());
+				cadastraProduto.cadastrarProduto();
 				break;
 			case 2:
-				listaProduto.listarProdutos(produtos);
+				listaProduto.listarProdutos();
 				break;
 			case 3:
 				editaProduto.editarProduto(produtos);
